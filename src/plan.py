@@ -2,17 +2,19 @@
 Describes an insurance plan and its details.
 """
 from dataclasses import dataclass
-from collections import namedtuple
+from pathlib import Path
 
 import pandas as pd
+
+__all__ = ['Plan', 'ExpenseCategories', 'ExpenseCategory']
 
 @dataclass
 class ExpenseCategory():
     name:str = ''
     type:str = ''
     deductable_applies:bool = False 
-    deductable_amt:float = 0 
-    coinsuance_pct:float = 0
+    deductable:float = 0 
+    coinsurance:float = 0
 
 @dataclass
 class ExpenseCategories():
@@ -24,7 +26,6 @@ class ExpenseCategories():
     def add_category(self, name:str, category:ExpenseCategory):
         setattr(self, name, category)
         
-
 @dataclass
 class Plan():
     name: str = ''
@@ -37,5 +38,5 @@ class Plan():
     oop_rt: float = 0
     total_paid: float = 0
 
-    def add_categories(self, categories:dict):
-        self.categories.update(categories)
+    def add_category(self, category):
+        self.categories.add_category(category)

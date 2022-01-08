@@ -1,0 +1,65 @@
+name: 'National POS 25-6350 F'
+premium: 0
+deductable: 6350
+out_of_pocket_max: 6850
+categories:
+  pcp:
+    deductable_applies: False
+    deductable: 25
+    coinsurance: null 
+  specialist: 
+    deductable_applies: True
+    deductable: null
+    coinsurance: 0 
+  prescription: 
+    deductable_applies: False
+    deductable: 45
+    coinsurance: null
+  test: 
+    deductable_applies: True
+    deductable: null
+    coinsurance: 0 
+---
+name: 'plan b'
+premium: 0
+deductable: 6350
+out_of_pocket_max: 6850
+categories:
+  pcp:
+    deductable_applies: False
+    deductable: 25
+    coinsurance: null 
+  specialist: 
+    deductable_applies: True
+    deductable: null
+    coinsurance: 0 
+  prescription: 
+    deductable_applies: False
+    deductable: 45
+    coinsurance: null
+  test: 
+    deductable_applies: True
+    deductable: null
+    coinsurance: 0 
+---
+name: 'plan c'
+premium: 0
+deductable: 6350
+out_of_pocket_max: 6850
+categories:
+  pcp:
+    deductable_applies: False
+    deductable: 25
+    coinsurance: null 
+  specialist: 
+    deductable_applies: True
+    deductable: null
+    coinsurance: 0 
+  prescription: 
+    deductable_applies: False
+    deductable: 45
+    coinsurance: null
+  test: 
+    deductable_applies: True
+    deductable: null
+    coinsurance: 0 
