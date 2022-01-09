@@ -8,9 +8,7 @@ import yaml
 
 import pandas as pd
 
-__all__ = ['get_plans',
-           'Plan', 
-           'ExpenseCategory',]
+__all__ = ['get_plans', 'Plan', 'ExpenseCategory',]
 
 def get_plans(file_name:str) -> list:
     '''Import all plans from yaml file'''
@@ -52,6 +50,8 @@ class Plan():
     oop_rt: float = 0
     total_paid: float = 0
 
+    def __after_init__(self):
+        pass
 
     def add_expense(self, category:str, charge_amount:float):        
         c = self.categories[category]
