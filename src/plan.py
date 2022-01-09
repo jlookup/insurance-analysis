@@ -49,12 +49,22 @@ class Plan():
     deductable_rt: float = 0
     oop_rt: float = 0
     total_paid: float = 0
+    self_pay_total: float = 0
 
     def __after_init__(self):
-        pass
+        '''
+        Create the DataFrame to report on expenses
+        '''
+        columns = ['event', 'detail', 'self_pay_cost', 'insured_cost',
+                    'deductable_running_total', 'out_of_pocket_running_total',
+                    'total_cost_running_total', 'self_pay_running_total', 'deductable_met',
+                    'out_of_pocket_met']
 
     def add_expense(self, category:str, charge_amount:float):        
+        
         c = self.categories[category]
+        if category != 'premium':
+            self.self_pay_total += charge_amount
 
         if category == 'premium':
             amt_due = c.payment
