@@ -1,15 +1,14 @@
 
 
 import unittest
-from copy import deepcopy
 
 import pandas as pd
 
-from src import *
+from src.plan import get_plans, Plan 
 
 class TestPlan(unittest.TestCase):
     def get_plan(self):
-        plans = get_plans('src/tests/test-plan.yml')
+        plans = get_plans('tests/test_plan.yml')
         return plans[0]
 
     def test_plan_init(self):

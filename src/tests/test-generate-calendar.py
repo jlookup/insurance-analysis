@@ -3,7 +3,7 @@
 import unittest
 from copy import deepcopy
 
-from generate_calendar import *
+from src.generate_calendar import *
 
 class TestGenerateCalendar(unittest.TestCase):
     c = generate_calendar()
