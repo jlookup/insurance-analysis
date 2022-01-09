@@ -55,10 +55,29 @@ class Plan():
         '''
         Create the DataFrame to report on expenses
         '''
-        columns = ['event', 'detail', 'self_pay_cost', 'insured_cost',
-                    'deductable_running_total', 'out_of_pocket_running_total',
-                    'total_cost_running_total', 'self_pay_running_total', 'deductable_met',
-                    'out_of_pocket_met']
+        # columns = ['event', 'detail', 'self_pay_cost', 'insured_cost',
+        #             'deductable_running_total', 'out_of_pocket_running_total',
+        #             'total_cost_running_total', 'self_pay_running_total', 'deductable_met',
+        #             'out_of_pocket_met']
+        # dtypes = {
+        #     'event': str,
+        #     'detail': str,
+        #     'self_pay_cost':  int,
+        #     'insured_cost':  int,
+        #     'deductable_running_total':  int,
+        #     'out_of_pocket_running_total':  int,
+        #     'total_cost_running_total':  int,
+        #     'self_pay_running_total':  int,
+        #     'deductable_met':   bool,
+        #     'out_of_pocket_met':   bool,
+        # }
+
+        # df = df.set_index(pd.DatetimeIndex())
+
+        pass
+
+
+
 
     def add_expense(self, category:str, charge_amount:float):        
         

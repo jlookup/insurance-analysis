@@ -6,14 +6,15 @@ from copy import deepcopy
 from generate_calendar import *
 
 class TestCalendar(unittest.TestCase):
-    c = create_calendar()
+    c = generate_calendar()
     print(c.shape)
-    print(c.columns)    
+    print(c.columns) 
+    print(c.dtypes)
     print(c.head())
 
 
     def test_create_calendar(self):
-        c = create_calendar()
+        c = generate_calendar()
         self.assertIsInstance(c, pd.DataFrame)
 
     def test_calendar_size(self):

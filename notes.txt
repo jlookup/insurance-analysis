@@ -1,0 +1,6 @@
+next step:
+
+decide how to run the analysis:
+    which is the axis of the app? Plan class or calendar dataframe?
+    - create new dataframe in the plan object
+    - alter calendar dataframe with data from plan object

@@ -8,7 +8,7 @@ import random
 
 import pandas as pd
 
-def create_calendar():
+def generate_calendar():
      
     start = get_start()
     premia = get_premia()
