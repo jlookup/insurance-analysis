@@ -4,11 +4,30 @@ Describes an insurance plan and its details.
 from dataclasses import dataclass
 from pathlib import Path
 
+import yaml
+
 import pandas as pd
 
-__all__ = ['Plan', 
-        #    'ExpenseCategories', 
+__all__ = ['get_plans',
+           'Plan', 
            'ExpenseCategory',]
+
+def get_plans(file_name:str) -> list:
+    '''Import all plans from yaml file'''
+    plans = []
+    plan_yml = Path.cwd() / file_name
+    with open(plan_yml) as f:
+        for data in yaml.safe_load_all(f):
+            p = Plan(**data)
+            p.categories = dict(**p.categories)
+            p.categories['premium'] =      ExpenseCategory(**p.categories['premium'])
+            p.categories['pcp'] =          ExpenseCategory(**p.categories['pcp'])
+            p.categories['specialist'] =   ExpenseCategory(**p.categories['specialist'])
+            p.categories['prescription'] = ExpenseCategory(**p.categories['prescription'])
+            p.categories['test'] =         ExpenseCategory(**p.categories['test'])
+            plans.append(p)
+    return plans
+
 
 @dataclass
 class ExpenseCategory():
@@ -18,15 +37,7 @@ class ExpenseCategory():
     coinsurance:float = None    
     deductable_applies:bool = True 
 
-
-# @dataclass
-# class ExpenseCategories():
-#     pcp: ExpenseCategory = None
-#     specialist: ExpenseCategory = None
-#     prescription: ExpenseCategory = None
-#     test: ExpenseCategory = None
-
-        
+      
 @dataclass
 class Plan():
     name: str = ''
@@ -44,13 +55,18 @@ class Plan():
 
     def add_expense(self, category:str, charge_amount:float):        
         c = self.categories[category]
-        if self.oop_met:
+
+        if category == 'premium':
+            amt_due = c.payment
+        elif self.oop_met:
             amt_due = 0
         elif c.copay: 
             amt_due = self.calculate_amt_due_copay(charge_amount, c.copay, 
                                                    c.deductable_applies)
         else: 
             amt_due = self.calculate_amt_due_coinsurance(charge_amount, c.coinsurance)
+
+        self.total_paid += amt_due
 
         return amt_due
 
@@ -103,74 +119,3 @@ class Plan():
         self.oop_rt = min(self.out_of_pocket_max, self.oop_rt + amt_due)
         # print('mark3: ', running_amt_cash, running_amt_coinsurance, amt_due)
         return amt_due
-
-
-    # def add_expense(self, category:str, charge_amount:float):
-    #     deductable_overage = self.update_deductable(charge_amount) 
-    #     oop_overage = self.update_oop(charge_amount)        
-    #     amt_due = self.calculate_amt_due(category, charge_amount,
-    #                                      deductable_overage, oop_overage)
-       
-
-    #     return amt_due
-
-    # def calculate_amt_due(self, category:str, charge_amount:float,
-    #                       deductable_overage:float, oop_overage:float):
-    #     c = self.categories[category]
-    #     if c.copay:
-    #         amt_due = self.calculate_amt_due_copay(charge_amount, c.copay, c.deductable_applies,
-    #                                                deductable_overage, oop_overage) 
-    #     else:
-    #         amt_due = self.calculate_amt_due_coinsurance(charge_amount, c.coinsurance,
-    #                                                      deductable_overage, oop_overage) 
-    #     return amt_due
-
-    # def calculate_amt_due_coinsurance(self, charge_amount:float, coinsurance_rate:float,
-    #                                   deductable_overage:float, oop_overage:float):
-    #     amt_due = 0
-    #     amt_coinsurance = charge_amount * coinsurance_rate
-    #     if self.oop_met:  
-    #         # if yearly out-of-pocket (oop) has been met (inclusive of this charge)
-    #         # then what is due is the lesser of: 
-    #         #   any amount of this charge below the oop, 
-    #         #   or the coinsurance
-    #         amt_below_oop = charge_amount - oop_overage
-    #         amt_due = min(amt_coinsurance, amt_below_oop)        
-    #     elif self.deductable_met:
-    #         # if yearly deducatble has been met (inclusive of this charge)
-    #         # then what is due is the sum of: 
-    #         #   any amount of this charge below the deductable, 
-    #         #   and the remainder multiplied by the coinsurance rate
-    #         amt_below_deduct = charge_amount - deductable_overage
-    #         amt_above_deduct = charge_amount - amt_below_deduct
-    #         amt_coinsurance = amt_above_deduct * coinsurance_rate
-    #         amt_due = amt_below_deduct + amt_coinsurance 
-    #     else:
-    #         amt_due = charge_amount
-    #     return amt_due
-
-    # def update_deductable(self, charge_amount):
-    #     overage = 0
-    #     if self.deductable_met:
-    #         overage = charge_amount
-    #     else:
-    #         if (self.deductable_rt + charge_amount) >= self.deductable:
-    #             self.deductable_met = True
-    #             self.deductable_rt = self.deductable
-    #             overage = (self.deductable_rt + charge_amount) - self.deductable
-    #         else:
-    #             self.deductable_rt += charge_amount   
-    #     return overage
-
-    # def update_oop(self, charge_amount):
-    #     overage = 0
-    #     if self.oop_met:
-    #         overage = charge_amount
-    #     else:
-    #         if (self.oop_rt + charge_amount) >= self.out_of_pocket_max:
-    #             self.oop_met = True
-    #             self.oop_rt = self.out_of_pocket_max
-    #             overage = (self.oop_rt + charge_amount) - self.out_of_pocket_max
-    #         else:
-    #             self.oop_rt += charge_amount   
-    #     return overage

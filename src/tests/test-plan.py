@@ -3,11 +3,12 @@
 import unittest
 from copy import deepcopy
 
-from src import plans
+from src import *
 
 class TestPlan(unittest.TestCase):
     def get_plan(self):
-        return deepcopy(plans[0])
+        plans = get_plans('src/tests/test-plan.yml')
+        return plans[0]
 
     def test_plan_init(self):
         p = self.get_plan()
@@ -179,49 +180,23 @@ class TestPlan(unittest.TestCase):
         self.assertEqual(True, p.deductable_met)   
         self.assertEqual(True, p.oop_met) 
 
+    def test_premuim(self):
+        p = self.get_plan()
+        amt = p.add_expense('premium', None)
+        self.assertEqual(200, amt)
+        self.assertEqual(0, p.deductable_rt)
+        self.assertEqual(0, p.oop_rt)
+        self.assertEqual(False, p.deductable_met)   
+        self.assertEqual(False, p.oop_met)        
 
+    def test_increment_total_paid(self):
+        p = self.get_plan()
+        p.add_expense('pcp', 103)
+        p.add_expense('prescription', 250)
+        self.assertEqual(70, p.total_paid)
 
-
-
-
-
-
-
-
-
-
-    # def test_deductable_oop_met(self):
-    #     p = self.get_plan()
-    #     p.add_expense('pcp', 6000)
-    #     self.assertEqual(False, p.deductable_met)   
-    #     self.assertEqual(False, p.oop_met)     
-    #     p.add_expense('pcp', 500)
-    #     self.assertEqual(True, p.deductable_met)   
-    #     self.assertEqual(False, p.oop_met) 
-    #     p.add_expense('pcp', 500)
-    #     self.assertEqual(True, p.deductable_met)   
-    #     self.assertEqual(True, p.oop_met) 
-
-    # def test_charge_amt_calc_copay(self):
-    #     p = self.get_plan()
-    #     amt = p.add_expense('pcp', 6000) # below deductable
-    #     self.assertEqual(25, amt)       
-    #     amt = p.add_expense('pcp', 500)  # above deducatable, below oop
-    #     self.assertEqual(25, amt)   
-    #     amt = p.add_expense('pcp', 500)  # above oop
-    #     self.assertEqual(0, amt)   
-
-    # def test_charge_amt_calc_coinsurance(self):
-    #     p = self.get_plan()
-    #     amt = p.add_expense('specialist', 6350) # below deductable
-    #     self.assertEqual(6350, amt)       
-    #     amt = p.add_expense('specialist', 2500)  # above deducatable, below oop
-    #     self.assertEqual(500, amt)   
-    #     amt = p.add_expense('specialist', 500)  # above oop
-    #     self.assertEqual(0, amt)  
-
-
-
+        p.add_expense('specialist', 230)
+        self.assertEqual(300, p.total_paid)
 
 
 

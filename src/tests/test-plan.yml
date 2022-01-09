@@ -1,0 +1,23 @@
+name: 'Test Plan'
+deductable: 6350
+out_of_pocket_max: 6850
+categories:
+  premium:
+    name: 'premium'
+    payment: 200
+  pcp:
+    name: 'pcp'
+    copay: 25
+    deductable_applies: False
+  specialist: 
+    name: 'specialist'
+    coinsurance: 0.2 
+    deductable_applies: True
+  prescription: 
+    name: 'prescription'
+    copay: 45
+    deductable_applies: False
+  test: 
+    name: 'test'
+    coinsurance: 0.2 
+    deductable_applies: True

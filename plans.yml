@@ -11,7 +11,7 @@ categories:
     deductable_applies: False
   specialist: 
     name: 'specialist'
-    coinsurance: 0.2  # not the real amount, for testing only 
+    coinsurance: 0 
     deductable_applies: True
   prescription: 
     name: 'prescription'
