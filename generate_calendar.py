@@ -21,7 +21,8 @@ def generate_calendar():
     
     calendar = pd.concat([start, premia, pcp, therapist, pt, neuro, tests, scripts]).set_index('date').sort_index()
 
-    calendar = cal_get_extended_columns(calendar)
+    # calendar = cal_get_extended_columns(calendar)
+    calendar = calendar.reset_index(level=0)
 
     return calendar
 

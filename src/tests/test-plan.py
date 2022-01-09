@@ -3,6 +3,8 @@
 import unittest
 from copy import deepcopy
 
+import pandas as pd
+
 from src import *
 
 class TestPlan(unittest.TestCase):
@@ -198,7 +200,42 @@ class TestPlan(unittest.TestCase):
         p.add_expense('specialist', 230)
         self.assertEqual(300, p.total_paid)
 
+    def test_post_init(self):
+        p = self.get_plan()
+        self.assertIsNotNone(p.history)
+        self.assertIsInstance(p.history, pd.DataFrame)
 
+    def test_update_history_directly(self):
+        p = self.get_plan()
+        x = p.update_history(
+            'pcp',
+            103,
+            '2022-01-04',            
+            0
+        )
+        self.assertTrue(x)
+        self.assertEqual(1, p.history.shape[0])
+        self.assertFalse(p.history.iloc[0]['out_of_pocket_met'])
+
+    def test_update_history_by_adding_expense(self):
+        p = self.get_plan()
+        amt = p.add_expense(
+            'pcp',
+            103,
+            '2022-01-04',            
+        )
+        self.assertEqual(amt, p.history.iloc[0]['insured_cost'])
+        self.assertEqual(1, p.history.shape[0])
+        self.assertFalse(p.history.iloc[0]['out_of_pocket_met'])
+        amt = p.add_expense(
+            'specialist',
+            75,
+            '2022-01-04',            
+        )
+        self.assertEqual(amt, p.history.iloc[1]['insured_cost'])
+        self.assertEqual(2, p.history.shape[0])
+        self.assertFalse(p.history.iloc[1]['out_of_pocket_met'])
+        self.assertEqual(100, p.history.iloc[1]['total_cost_running_total'])
 
 if __name__ == '__main__':
     unittest.main()

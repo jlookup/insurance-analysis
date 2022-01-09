@@ -3,12 +3,16 @@ Describes an insurance plan and its details.
 """
 from dataclasses import dataclass
 from pathlib import Path
+from datetime import date, datetime
 
 import yaml
 
 import pandas as pd
 
-__all__ = ['get_plans', 'Plan', 'ExpenseCategory',]
+__all__ = ['get_plans',
+ 'Plan',
+ 'ExpenseCategory',
+]
 
 def get_plans(file_name:str) -> list:
     '''Import all plans from yaml file'''
@@ -51,14 +55,28 @@ class Plan():
     total_paid: float = 0
     self_pay_total: float = 0
 
-    def __after_init__(self):
+    history: pd.DataFrame = None
+
+
+    def __post_init__(self):
         '''
-        Create the DataFrame to report on expenses
+        Create the DataFrame to track and report on expenses
         '''
-        # columns = ['event', 'detail', 'self_pay_cost', 'insured_cost',
-        #             'deductable_running_total', 'out_of_pocket_running_total',
-        #             'total_cost_running_total', 'self_pay_running_total', 'deductable_met',
-        #             'out_of_pocket_met']
+        columns = [
+            'date',
+            'event',
+            'detail',
+            'self_pay_cost',
+            'insured_cost',
+            'deductable_running_total',
+            'out_of_pocket_running_total',
+            'total_cost_running_total',
+            'self_pay_running_total',
+            'deductable_met',
+            'out_of_pocket_met',
+        ]
+
+        # TODO: work out passing types to dataframe
         # dtypes = {
         #     'event': str,
         #     'detail': str,
@@ -72,15 +90,37 @@ class Plan():
         #     'out_of_pocket_met':   bool,
         # }
 
-        # df = df.set_index(pd.DatetimeIndex())
+        self.history = pd.DataFrame(
+            columns=columns, 
+            # dtype=dtypes,
+            # index=pd.DatetimeIndex([],name='date'),
+        )
 
-        pass
+    
+    def update_history(self, category, charge_amount, date, amt_due):
+        '''
+        Adds a new expense to the calendar and captures the current state.
+        '''
+        line = {
+            'date': date,
+            'event': category,
+            'detail': None,  # For future use
+            'self_pay_cost':  charge_amount,
+            'insured_cost':  amt_due,
+            'deductable_running_total':  self.deductable_rt,
+            'out_of_pocket_running_total':  self.oop_rt,
+            'total_cost_running_total':  self.total_paid,
+            'self_pay_running_total':  self.self_pay_total,
+            'deductable_met': self.deductable_met,
+            'out_of_pocket_met': self.oop_met,
+        }
+        self.history = self.history.append(line, ignore_index=True)
+        return True
 
-
-
-
-    def add_expense(self, category:str, charge_amount:float):        
-        
+    def add_expense(self, category:str, charge_amount:float, date:date=None, detail:str=None):        
+        '''Adds a new expense to the insured's ledger. 
+        Calculates amount due by insured, updates running totals, 
+        and makes an entry in the history table.'''
         c = self.categories[category]
         if category != 'premium':
             self.self_pay_total += charge_amount
@@ -96,6 +136,8 @@ class Plan():
             amt_due = self.calculate_amt_due_coinsurance(charge_amount, c.coinsurance)
 
         self.total_paid += amt_due
+
+        self.update_history(category, charge_amount, date, amt_due)
 
         return amt_due
 
