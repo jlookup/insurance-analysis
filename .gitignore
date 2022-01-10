@@ -1,5 +1,5 @@
 # particular to this project
-src/tests/*.xlsx
+*.xlsx
 docs/insurance-analysis.ipynb
 
 
