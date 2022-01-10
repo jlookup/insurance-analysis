@@ -29,7 +29,7 @@ def compare_plans(plans: list) -> pd.DataFrame:
     '''Compares total costs for each plan by quarter'''
     hist = plans[0].history
     print(hist['total_cost_running_total'].groupby([pd.PeriodIndex(hist['date'], freq='Q')])\
-                                      .agg('max'))
+                                          .agg('max'))
     return pd.DataFrame()
 
 def save_to_file(plans: list, output_dir: Path) -> bool:
