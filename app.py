@@ -31,8 +31,8 @@ def init_argparse() -> argparse.ArgumentParser:
         version = f"Insurance Tracker version {version}"
     )
     parser.add_argument("-m", "--mode",nargs=1)
-    parser.add_argument("-p", "--plans",nargs=1)
-    parser.add_argument('files', nargs='*')
+    parser.add_argument("-p", "--plan-definition",nargs=1)
+    parser.add_argument('--output-dir', nargs=1)
 
     return parser.parse_args()
 

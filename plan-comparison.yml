@@ -1,4 +1,4 @@
-name: 'National POS 25-6350 F'
+name: 'Aetna National POS 25-6350 F'
 deductable: 6350
 out_of_pocket_max: 6850
 categories:
@@ -22,47 +22,54 @@ categories:
     coinsurance: 0 
     deductable_applies: True
 
-# ---
-# name: 'plan b'
-# premium: 0
-# deductable: 6350
-# out_of_pocket_max: 6850
-# categories:
-#   pcp:
-#     deductable_applies: False
-#     deductable: 25
-#     coinsurance: null 
-#   specialist: 
-#     deductable_applies: True
-#     deductable: null
-#     coinsurance: 0 
-#   prescription: 
-#     deductable_applies: False
-#     deductable: 45
-#     coinsurance: null
-#   test: 
-#     deductable_applies: True
-#     deductable: null
-#     coinsurance: 0 
-# ---
-# name: 'plan c'
-# premium: 0
-# deductable: 6350
-# out_of_pocket_max: 6850
-# categories:
-#   pcp:
-#     deductable_applies: False
-#     deductable: 25
-#     coinsurance: null 
-#   specialist: 
-#     deductable_applies: True
-#     deductable: null
-#     coinsurance: 0 
-#   prescription: 
-#     deductable_applies: False
-#     deductable: 45
-#     coinsurance: null
-#   test: 
-#     deductable_applies: True
-#     deductable: null
-#     coinsurance: 0 
+---
+
+name: 'Aetna National HSA 3000 F'
+deductable: 3000
+out_of_pocket_max: 5500
+categories:
+  premium:
+    name: 'premium'
+    payment: 28
+  pcp:
+    name: 'pcp'
+    coinsurance: 0.1
+    deductable_applies: True
+  specialist: 
+    name: 'specialist'
+    coinsurance: 0.1 
+    deductable_applies: True
+  prescription: 
+    name: 'prescription'
+    copay: 45
+    deductable_applies: False
+  test: 
+    name: 'test'
+    coinsurance: 0.1 
+    deductable_applies: True 
+
+---
+
+name: 'Aetna National POS 25-750 F'
+deductable: 750
+out_of_pocket_max: 1500
+categories:
+  premium:
+    name: 'premium'
+    payment: 147.5
+  pcp:
+    name: 'pcp'
+    copay: 25
+    deductable_applies: False
+  specialist: 
+    name: 'specialist'
+    copay: 50 
+    deductable_applies: False
+  prescription: 
+    name: 'prescription'
+    copay: 45
+    deductable_applies: False
+  test: 
+    name: 'test'
+    coinsurance: 0.1 
+    deductable_applies: True

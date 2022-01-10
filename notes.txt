@@ -1,6 +1,8 @@
 next step:
 
-decide how to run the analysis:
-    which is the axis of the app? Plan class or calendar dataframe?
-    - create new dataframe in the plan object
-    - alter calendar dataframe with data from plan object
+working on compare.compare_plans()
+    we now have the agg to get total paid by quarter as a Series
+    now concat the 3 Series together into a df and transpose them
+    return the df
+
+    next, add the compare df to the xlsx output as the first sheet ('Summary')

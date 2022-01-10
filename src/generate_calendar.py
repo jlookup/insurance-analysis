@@ -67,7 +67,7 @@ def get_tests():
     tests_neuro_doy = [f'2022{random.randint(1,365)}' for _ in range(1,4)]
     tests_neuro_ts = pd.to_datetime(tests_neuro_doy, format='%Y%j').to_series()
     return pd.DataFrame({'date': tests_neuro_ts,
-                          'event': 'tests', 'detail': None, 'self_pay_cost': 350})
+                          'event': 'test', 'detail': None, 'self_pay_cost': 350})
 
 def get_scripts():
     # scripts_ts = pd.date_range('2022-01-01', periods=12, freq='MS').to_series()
